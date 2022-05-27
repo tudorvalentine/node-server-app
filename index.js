@@ -12,6 +12,7 @@ const pathDownload = options.root + "/download/";
 app.use(express.static(__dirname + "/"));
 app.get("/", (req, res) => {
   res.send("Im working on page /form-input/form.html");
+  console.log(req.socket.remoteAddress)
 });
 
 function s_f(response, file) {
