@@ -1,2 +1,0 @@
-Data_base|C:/Users/tudor/Desktop/backend/images/db.png
-pointer|C:/Users/tudor/Desktop/backend/images/pointer.jpg

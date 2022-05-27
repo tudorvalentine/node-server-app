@@ -50,18 +50,8 @@ app.get("/form-input", (req, res) => {
     }
   });
 });
-app.post("/form-input", urlencodedParser, (req, res) => {
-  let fileName = "form-input/form2.html";
-  res.sendFile(fileName, options, (err) => {
-    if (err) {
-      next(err);
-    } else {
-      console.log("Sent:", fileName);
-    }
-  });
-});
-app.post("/form-input/secondstep", urlencodedParser, (req, res) => {});
+
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
 });
