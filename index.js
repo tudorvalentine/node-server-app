@@ -12,12 +12,16 @@ const pathDownload = options.root + "/download/";
 app.use(express.static(__dirname + "/"));
 app.get("/", (req, res) => {
   res.send("Im working on page /form-input/form.html");
-  console.log(req.socket.remoteAddress)
+  const parseIp = (request) =>
+  request.headers["x-forwarded-for"]?.split(",").shift() ||
+  request.socket?.remoteAddress;
+
+  console.log(parseIp(req));
 });
 
 function s_f(response, file) {
-    let fullFilePath = pathDownload + file;
-    fs.stat(pathDownload + file, (err, stats) => {
+  let fullFilePath = pathDownload + file;
+  fs.stat(pathDownload + file, (err, stats) => {
     if (err) {
       console.log("File not found.");
       response.send("File not found!!");
@@ -51,7 +55,6 @@ app.get("/form-input", (req, res) => {
     }
   });
 });
-
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
