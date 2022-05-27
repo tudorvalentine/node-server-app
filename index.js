@@ -34,8 +34,7 @@ app.get("/download", (req, res) => {
   s_f(res, req.query.filename);
 });
 app.get("/pdf", (req, res) => {
-//   let pathPDF = "http://" + req.headers.host + "/pdf/" + req.query.pdf;
-let pathPDF = "pdf/" + req.query.pdf
+  let pathPDF = "http://" + req.headers.host + "/pdf/" + req.query.pdf;
   let page = '<iframe src="' + pathPDF + '" width="100%" height="600" />';
   console.log("Sent PDF ...");
   res.send(page);
