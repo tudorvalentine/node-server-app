@@ -11,7 +11,8 @@ var options = {
 const pathDownload = options.root + "/download/";
 app.use(express.static(__dirname + "/"));
 app.get("/", (req, res) => {
-  res.send("Im working on page /form-input/form.html");
+  res.end("<h1>Hello, it is my SERVER for the Augmented Images application based on Android OS!</h1>")
+
   const parseIp = (request) =>
   request.headers["x-forwarded-for"]?.split(",").shift() ||
   request.socket?.remoteAddress;
