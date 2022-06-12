@@ -19,20 +19,28 @@ class DBController {
       [username, email, hashPass],
       (error, result) => {
         if (error) {
-          console.log(error.message);
+          console.log({ 
+            action: "register",
+            errorJSON : error
+          })
           if (error.code == 23505) {
             res.json({
-              error : true,
-              error_msg : "Utilizator cu astfel de date deja există"
+              error: true,
+              error_msg: "Utilizator cu astfel de date deja există",
             });
           }
         } else {
-          console.log(result.rows);
+          console.log({
+            action: "register",
+            id_user : result.rows[0].id_user,
+            username : result.rows[0].username,
+            email : result.rows[0].email
+          })
           res.json({
             error: false,
-              id_user: result.rows[0].id_user,
-              username: result.rows[0].username,
-              email: result.rows[0].email,
+            id_user: result.rows[0].id_user,
+            username: result.rows[0].username,
+            email: result.rows[0].email,
           });
         }
       }
@@ -40,18 +48,27 @@ class DBController {
   }
   async login(req, res) {
     const { email, password } = req.body;
-    console.log(email, password)
+    console.log({
+      action: "login",
+      email: email,
+      pass: password
+    });
     const user = await db.query(
       `SELECT * FROM USERS WHERE email = $1`,
       [email],
       (error, result) => {
         if (error) {
-          console.log(error.message);
+          console.log({ 
+            action: "login",
+            errorJSON : error
+        })
         } else if (result.rowCount) {
-          console.log(
-            result.rows[0].id_user,
-            result.rows[0].username,
-            result.rows[0].email
+          console.log({
+            action: "login",
+            id_user : result.rows[0].id_user,
+            username : result.rows[0].username,
+            email : result.rows[0].email
+          }
           );
           const encryptedPass = result.rows[0].password;
           const decryptedPass = cryp.decrypt(encryptedPass);
@@ -80,9 +97,9 @@ class DBController {
     res.json(cryp.decrypt(user.rows[0].password));
   }
 
-  // async displayUsers(req,res){
-
-  // }
+  main(req , res){
+    res.send('<h2>It is my server for Android Application (Augmented Image)</h2>');
+  }
 }
 
 module.exports = new DBController();
