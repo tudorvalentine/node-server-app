@@ -4,6 +4,7 @@ const cryp = require("../crypt/crypto");
 const path = require("path")
 
 class DBController {
+
   async createUser(req, res) {
     const { username, email, password } = req.body;
     const str = password + "";
@@ -87,7 +88,7 @@ class DBController {
       }
     )
 
-    await db.query(`select image_conspect.id_assoc, image_conspect.image_path,image_conspect.conspect_path 
+    await db.query(`select image_conspect.id_assoc, image_conspect.image_name,image_conspect.conspect_name 
     from users
     inner join image_conspect on users.id_user = image_conspect.id_user 
     where users.email = $1`,[email],(err,result)=>{
@@ -110,43 +111,36 @@ class DBController {
       }
     })
   }
-
-  async displayUsers(req, res) {
-    const user = await db.query("SELECT * FROM users");
-    res.json({
-      id : 345,
-      assoc : user.rows
-    })
-  }
-
-  async displayUser(req, res) {
-    const id = req.params.id;
-    const user = await db.query(`SELECT * FROM users where id_user = $1`, [id]);
-    res.json(cryp.decrypt(user.rows[0].password));
-  }
-  async displayPath(req, res){
-    const id = req.params.id
-    const pathImage = path.join(path.dirname(__dirname), 'image/db.jpg')
-    const pathConsp = path.join(path.dirname(__dirname), 'conspect/db.pdf')
-    console.log(pathImage)
-    console.log(pathConsp)
-    const assoc = await db.query(`insert into image_conspect (image_path,conspect_path,id_user) values ($1,$2,$3)`,[pathImage,pathConsp,id], (error, result) =>{
-      if (error) {
-        res.json({
-          err:"error",
-          msg : "Nu s-a primit"
-        })
-      }else{
-        res.json(result)
-      }
-    })
-  }
   getImage(req, res){
       const nameimage = req.params.nameimage
       console.log(nameimage)
       const pathImage = path.join(path.dirname(__dirname), 'images/',nameimage)
       console.log(pathImage)
       res.download(pathImage,nameimage)
+  }
+  async syncronize(req , res){
+    const userId = req.params.userId
+    console.log("User with id >> " + userId + "<< request sync.")
+    await db.query(`SELECT * FROM image_conspect WHERE id_user = $1`, [userId], (err, result) => {
+      if(err){
+        res.json({
+          error : true,
+          error_msg : "Syncronize crashed"
+        })
+        console.log({
+          error : true,
+          error_msg : "Syncronize crashed",
+          errorDescription : err
+        })
+      }else{
+        res.json({
+          error : false,
+          id_user : userId,
+          countedRows : result.rowCount,
+          rows : result.rows
+        })
+      }
+    })
   }
 }
 

@@ -4,9 +4,8 @@ const controller = require('../controller/db_controller')
 
 router.post('/register', controller.createUser)
 router.post('/login', controller.login)
-router.get('/display', controller.displayUsers)
-router.get('/display/:id', controller.displayUser)
-router.post('/displayPath/:id', controller.displayPath)
-router.post('/images/:nameimage', controller.getImage)
+router.get('/images/:nameimage', controller.getImage)
+
+router.post('/sync/:userId', controller.syncronize)
 
 module.exports = router
