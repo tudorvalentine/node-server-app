@@ -5,7 +5,8 @@ const Pool = require('pg').Pool
 //   password: 'tudorvalentine',
 //   port: 3000,
 //   database: 'augmentedimage_postgres'
-// }) || new Pool({
+// }) || 
+new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
