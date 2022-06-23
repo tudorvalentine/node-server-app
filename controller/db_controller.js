@@ -94,7 +94,8 @@ class DBController {
       if (err) {
         res.json({
           error : true,
-          error_msg : "Error get path of source"
+          error_msg : "Error get path of source",
+          error_res : err
         })
       }else{
         if(flag){
