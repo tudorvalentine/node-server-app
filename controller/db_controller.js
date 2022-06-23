@@ -118,6 +118,13 @@ class DBController {
       console.log(pathImage)
       res.download(pathImage,nameimage)
   }
+  getPdf(req, res){
+      const pdf = req.params.pdf
+      console.log(pdf)
+      const pathPDF = path.join(path.dirname(__dirname), 'conspect/', pdf)
+      console.log(pathPDF)
+      res.download(pathPDF,pdf)
+  }
   async syncronize(req , res){
     const userId = req.params.userId
     console.log("User with id >> " + userId + "<< request sync.")
