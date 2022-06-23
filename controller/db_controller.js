@@ -49,10 +49,9 @@ class DBController {
     );
   }
   async login(req, res) {
-    const {id , email, password } = req.body;
+    const {email, password } = req.body;
     console.log({
       action: "login",
-      id_client : id,
       email: email,
       pass: password
     });
