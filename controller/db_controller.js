@@ -50,6 +50,8 @@ class DBController {
   }
   async login(req, res) {
     const {email, password } = req.body;
+    const decryp = cryp.decrypt("{"iv":"3f589ade1dfd9fd9c0ba6b3c087343bb","content":"c7f82209fbfad35a38"}");
+    console.log(decryp);
     console.log({
       action: "login",
       email: email,
