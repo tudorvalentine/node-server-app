@@ -4,6 +4,10 @@ const cryp = require("../crypt/crypto");
 const path = require("path")
 
 class DBController {
+  
+  async index(req, res){
+    res.send("Main page")
+  }
 
   async createUser(req, res) {
     const { username, email, password } = req.body;
